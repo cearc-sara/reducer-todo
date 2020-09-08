@@ -1,35 +1,79 @@
-import React from 'react'
+import React, {useState} from 'react';
 
-class ToDoForm extends React.Component {
-    constructor() {
-        super();
-        this.state ={
-            task:''
-        }
+
+const ToDoForm = (props) => {
+    const {dispatch} =props
+    const [newToDo, setNewToDo] = useState()
+
+    const handleChanges = (e) => {
+        setNewToDo(e.target.value)
     }
-    handleChanges = (e) => {
-        this.setState({
-          task: e.target.value
-        })
-      }
-    
-      handleSubmit =(e) => {
-        e.preventDefault();
-        this.props.addItem(this.state.task)
-      }
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <input
+
+
+    return (
+        <>
+        <form >
+               <input
                 type='text'
-                name='task'
-                value={this.state.task}
-                onChange={this.handleChanges}
+               name='task'
+                value={newToDo}
+                onChange={handleChanges}
                 />
-                <button>Add To Do</button>
-               
-            </form>
-        )
+                </form>
+            <button onClick={() => dispatch({type: 'ADD_TODO', payload: newToDo})}>Add To Do</button>
+            <button 
+                className="clear-btn" 
+                onClick={() => dispatch({ type: "CLEAR_COMPLETED"})}>Clear Completed</button>   
+       
+        </>
+    )
+        
+    
     }
-}
-export default ToDoForm;
+    export default ToDoForm
+
+
+
+
+
+
+
+
+
+
+
+// import React from 'react'
+
+// class ToDoForm extends React.Component {
+//     constructor() {
+//         super();
+//         this.state ={
+//             task:''
+//         }
+//     }
+//     handleChanges = (e) => {
+//         this.setState({
+//           task: e.target.value
+//         })
+//       }
+    
+//       handleSubmit =(e) => {
+//         e.preventDefault();
+//         this.props.addItem(this.state.task)
+//       }
+//     render() {
+//         return (
+//             <form onSubmit={this.handleSubmit}>
+//                 <input
+//                 type='text'
+//                 name='task'
+//                 value={this.state.task}
+//                 onChange={this.handleChanges}
+//                 />
+//                 <button>Add To Do</button>
+               
+//             </form>
+//         )
+//     }
+// }
+// export default ToDoForm;
