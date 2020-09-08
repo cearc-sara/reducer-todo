@@ -1,35 +1,35 @@
-import React, {useReducer} from 'react'
-import {initialState, reducer} from './reducers/reducer'
+import React from 'react'
 
-const ToDoForm = () => {
-    const [state, dispatch] = useReducer(reducer, initialState);
-
-
-   const handleChanges = (e) => {
-        dispatch()
-         
-        
+class ToDoForm extends React.Component {
+    constructor() {
+        super();
+        this.state ={
+            task:''
+        }
+    }
+    handleChanges = (e) => {
+        this.setState({
+          task: e.target.value
+        })
       }
     
-    const  handleSubmit =(e) => {
+      handleSubmit =(e) => {
         e.preventDefault();
-        dispatch()
+        this.props.addItem(this.state.task)
       }
-
-   
-    
+    render() {
         return (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={this.handleSubmit}>
                 <input
                 type='text'
-                name='item'
-                value={state.item}
-                onChange={handleChanges}
+                name='task'
+                value={this.state.task}
+                onChange={this.handleChanges}
                 />
                 <button>Add To Do</button>
-                
+               
             </form>
         )
     }
-
+}
 export default ToDoForm;

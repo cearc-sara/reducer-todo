@@ -1,13 +1,12 @@
-import React, {useReducer} from 'react';
-import {initialState, reducer} from './reducers/reducer'
+import React, {useState} from 'react';
+import ToDoList from './components/todoList'
+import ToDoForm from './components/todoForm'
 
-import './App.css';
-import ToDoForm from './components/todoForm';
-import ToDoList from './components/todoList';
+import '../src/components/todo.css'
+import { initialState } from './reducers/reducer';
 
 
-const toDoListData = {
-  todos: [
+const toDoListData = [
   {
     task: 'Wash Laundry',
     id: 882,
@@ -28,66 +27,90 @@ const toDoListData = {
     id: 156,
     completed: false,
   }
-]};
+];
 
+function App () {
+  // you will need a place to store your state in this component.
+  // design `App` to be the parent component of your application.
+  // this component is going to take care of state, and any change handlers you need to work with your state
+  const [toDoList, setToDoList] = useState(toDoListData)
+    
+    
+      
+    
+  
 
-function App() {
-const [state, dispatch] = useReducer(reducer, initialState);
-
-
-
-const toggleCompleted = (clickedItemId) => {
-  dispatch({
-    toDoList: toDoListData.map((item) => {
-      if(item.id === clickedItemId) {
-        return {
-          ...item,
-          completed: !item.completed
+   const toggleCompleted = (clickedItemId) => {
+    setToDoList(
+      toDoList.map((item) => {
+        if(item.id === clickedItemId) {
+          return {
+            ...item,
+            completed: !item.completed
+          }
+        } else {
+          return item;
         }
-      } else {
-        return item;
-      }
-    })
-  })
-}
+      })
+    )
+  }
 
-const addItem =(itemTask) => {
-  const newItem ={
-    task: itemTask,
-    id: Date.now(),
-    completed: false,
-  };
-  dispatch({
-    toDoList: [...toDoListData, newItem]
-  })
-}
+  const addItem =(itemTask) => {
+    const newItem ={
+      task: itemTask,
+      id: Date.now(),
+      completed: false,
+    };
+    setToDoList( [...toDoList, newItem]
+    )
+  }
 
-const clearItem =() => {
-  dispatch({
-    toDoList: toDoListData.filter((item) => {
-      if(item.completed === true) {
-        return ''
-      }else {
-        return item;
-      }
-    })
-  })
-}
+  const clearItem =() => {
+    setToDoList(
+      toDoList.filter((item) => {
+        if(item.completed === true) {
+          return ''
+        }else {
+          return item;
+        }
+      })
+    )
+  }
 
+  // handleChanges = (e) => {
+  //   this.setState({
+  //     task: e.target.value
+  //   })
+  // }
 
-  return (
-    <div className="App">
-      <header className="App-header">
+  // handleSubmit =(e) => {
+  //   e.preventDefault();
+  //   this.addItem(this.state.task)
+  // }
+
+  
+    return (
+      <div className="App">
+      <div className="header">
         <h1>To Do List</h1>
         <ToDoForm 
-        addItem={addItem}/>
-      </header>
+        addItem={addItem} 
+        
+        setToDoList={setToDoList}
+        // handleChanges={this.handleChanges} 
+        // handleSubmit={this.handleSubmit}
+        // toggleCompleted={this.toggleCompleted}
+        />
+      </div>
+
       <ToDoList
-      toggleCompleted={toggleCompleted}
-      clearItem={clearItem}
+        toDoList={toDoList}
+        toggleCompleted={toggleCompleted}
+        clearItem={clearItem}
       />
     </div>
-  );
-}
+    );
+  }
+
 
 export default App;
