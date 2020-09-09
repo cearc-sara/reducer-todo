@@ -36,10 +36,15 @@ export const reducer = (state, action) => {
                 
             ]
         case "TOGGLE_COMPLETED":
-            return state.map(
-                (item) => 
-                item.id === action.payload ? 
-                { ...item, completed: !item.completed } : item)
+                console.log("thisstate", state, action);
+                return state.map((task) => {
+                  if (task.id === action.payload) {
+                    console.log("task?", task);
+                      return { ...task, completed: !task.completed }
+                  } else {
+                      return task
+                  }
+                });
         
         case "CLEAR_COMPLETED":
             return state.filter(
